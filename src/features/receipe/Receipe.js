@@ -44,7 +44,7 @@ export function Receipe() {
             <div class="double-column">
               <div class="blue-column">Some Text in Row2, Column Three</div>
             </div>
-            <div class="column">
+            <div class="single-column">
               <div class="orange-column">Some Text in Row 2, Column Two</div>
             </div>
           </div>

@@ -1,13 +1,13 @@
 .some-page-wrapper {
   margin: 0px;
   background-color: red;
-  padding: 0%;
 }
+
 .row {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 100%;
+  margin: 10px;
 }
 
 .column {
@@ -15,7 +15,7 @@
   flex-direction: column;
   flex-basis: 100%;
   flex: 1;
-  padding: 0px;
+  padding: 10px;
 }
 
 .blue-column {
@@ -38,5 +38,12 @@
   flex-direction: column;
   flex-basis: 100%;
   flex: 2;
-  padding: 0px;
+  padding-right: 0px;
+}
+
+.single-column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
 }
