@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+
 import styled from "styled-components";
-import Modal from "../../components/Modal";
+import ModalPopup from "../../components/Modal";
 import "./receipe.css";
 import { MdAdd } from "react-icons/md";
 
@@ -11,18 +12,30 @@ export function Receipe() {
     setShowModal((setShowModal) => !showModal);
   };
   return (
-    <Container>
+    <div className="example" spacing={1} justify="center">
       <div class="some-page-wrapper">
         <div class="row">
           <div class="single-column">
-            <div class="orange-column">Some Text in Row 2, Column Two</div>
+            <div class="orange-column">
+              <label>Receipe List</label>
+              <AddButton onClick={openModal}>Add Item</AddButton>
+            </div>
+            <hr class="solid"></hr>
+            <div class="item-list">
+              <label>Chicken Curry</label>
+            </div>
+            <div class="item-list">
+              <label>Vegetabl Curry</label>
+            </div>
           </div>
+
           <div class="double-column">
             <div class="blue-column">Some Text in Row2, Column Three</div>
           </div>
         </div>
       </div>
-    </Container>
+      <ModalPopup showModal={showModal} setShowModal={setShowModal} />
+    </div>
   );
 }
 

@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
+import "./Modal.css";
 
-export const Modal = ({ showModal, setShowModal }) => {
+import { Modal, Button } from "react-bootstrap";
+
+export const ModalPopup = ({ showModal, setShowModal }) => {
   const modalRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -15,9 +18,15 @@ export const Modal = ({ showModal, setShowModal }) => {
     }
   };
 
+  const [isShow, invokeModal] = React.useState(false);
+  const initModal = () => {
+    return invokeModal(!false);
+  };
+
   const [receipe, setReceipe] = useState("");
   const [ingredient, setIngredient] = useState("");
   const [direction, setDirection] = useState("");
+  const [error, setError] = useState(null);
 
   const handleReceipe = (e) => setReceipe(e.target.value);
   const handleIngre = (e) => setIngredient(e.target.value);
@@ -39,43 +48,63 @@ export const Modal = ({ showModal, setShowModal }) => {
     <>
       {showModal ? (
         <Background onClick={closeModal} ref={modalRef}>
-          <ModalWrapper showModal={showModal}>
-            <ModalContent>
-              <div className="three columns">
-                <label for="nameInput">Receipe</label>
-                <input
-                  className="u-full-width"
-                  type="text"
-                  id="receipe"
-                  onChange={handleReceipe}
-                  value={receipe}
-                />
-                <label for="ingredientInput">Ingredient</label>
-                <input
-                  className="u-full-width"
-                  type="text"
-                  id="ingredient"
-                  onChange={handleIngre}
-                  value={ingredient}
-                />
-                <label for="ingredientInput">Direction</label>
-                <input
-                  className="u-full-width"
-                  type="text"
-                  id="direction"
-                  onChange={handleDire}
-                  value={direction}
-                />
-                <button className="button-primary" onClick={addReceipe}>
-                  Add Receipe
-                </button>
+          <Modal show={showModal}>
+            <Modal.Header
+              closeButton
+              onClick={() => setShowModal((prev) => !prev)}
+            >
+              <Modal.Title>React Modal Popover Example</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div className="row">
+                <div className="columns">
+                  <label for="nameInput">Receipe</label>
+                  <input
+                    className="u-full-width"
+                    type="text"
+                    placeholder="chicken curry"
+                    id="recepie"
+                    onChange={handleReceipe}
+                    value={receipe}
+                  />
+                  <label for="ingredient">Ingredient</label>
+                  <input
+                    className="u-full-width"
+                    type="text"
+                    placeholder="chicken"
+                    id="ingredient"
+                    onChange={handleIngre}
+                    value={ingredient}
+                  />
+                  <label for="description">Description</label>
+                  <input
+                    className="u-full-width"
+                    type="email"
+                    placeholder="butter"
+                    id="ingredient"
+                    onChange={handleIngre}
+                    value={ingredient}
+                  />
+                  {error && error}
+                </div>
               </div>
-            </ModalContent>
-            <CloseModalButton
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="danger"
+                onClick={() => setShowModal((prev) => !prev)}
+              >
+                Close
+              </Button>
+              <Button variant="dark" onClick={initModal}>
+                Store
+              </Button>
+            </Modal.Footer>
+            {/* <CloseModalButton
               aria-lable="Close modal"
               onClick={() => setShowModal((prev) => !prev)}
-            />
-          </ModalWrapper>
+            /> */}
+          </Modal>
         </Background>
       ) : null}
     </>
@@ -88,8 +117,8 @@ const Background = styled.div`
   background: rgba(0, 0, 0, 0.8);
   position: fixed;
   display: flex;
-  // justify-content: center;
-  // align-items: center;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ModalWrapper = styled.div`
@@ -124,4 +153,4 @@ const CloseModalButton = styled(MdClose)`
   padding: 0px;
   z-index: 10;
 `;
-export default Modal;
+export default ModalPopup;

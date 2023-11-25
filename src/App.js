@@ -7,6 +7,7 @@ import { AddUser } from "./features/users/AddUser";
 import { EditUser } from "./features/users/EditUsers";
 import { Receipe } from "./features/receipe/Receipe";
 import Home from "./pages/Home";
+import { PostsList } from "./features/posts/PostsList";
 
 function App(id) {
   return (
@@ -18,6 +19,7 @@ function App(id) {
         <Route path="/add-user" element={<AddUser />}></Route>
         <Route path="/edit-user/:id" element={<EditUser />}></Route>
         <Route path="/receipe" element={<Receipe />}></Route>
+        <Route path="/postslist" element={<PostsList />}></Route>
       </Routes>
     </Router>
   );

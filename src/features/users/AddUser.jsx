@@ -14,13 +14,13 @@ export function AddUser() {
   const handleName = (e) => setName(e.target.value);
   const handleEmail = (e) => setEmail(e.target.value);
 
-  const usersAmount = useSelector((state) => state.users.length);
+  const usersId = useSelector((state) => state.users.length);
 
   const handleClick = () => {
     if (name && email) {
       dispatch(
         userAdded({
-          id: usersAmount + 1,
+          id: usersId + 1,
           name,
           email,
         })
