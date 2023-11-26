@@ -1,16 +1,31 @@
 import React, { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 import "./Modal.css";
-
 import { Modal, Button } from "react-bootstrap";
+
+import { recepieAdd } from "../features/receipe/receipesSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export const ModalPopup = ({ showModal, setShowModal }) => {
   const modalRef = useRef();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const Navigate = useNavigate();
+
+  const [title, setTitle] = useState("");
+  const [ingredient, setIngredient] = useState("");
+  const [direction, setDirection] = useState("");
+  const [error, setError] = useState(null);
+
+  const handleTitle = (e) => setTitle(e.target.value);
+  const handleIngre = (e) => setIngredient(e.target.value);
+  const handleDire = (e) => setDirection(e.target.value);
+
+  const [isShow, invokeModal] = React.useState(false);
+  const initModal = () => {
+    return invokeModal(!false);
+  };
 
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
@@ -18,95 +33,94 @@ export const ModalPopup = ({ showModal, setShowModal }) => {
     }
   };
 
-  const [isShow, invokeModal] = React.useState(false);
-  const initModal = () => {
-    return invokeModal(!false);
-  };
-
-  const [receipe, setReceipe] = useState("");
-  const [ingredient, setIngredient] = useState("");
-  const [direction, setDirection] = useState("");
-  const [error, setError] = useState(null);
-
-  const handleReceipe = (e) => setReceipe(e.target.value);
-  const handleIngre = (e) => setIngredient(e.target.value);
-  const handleDire = (e) => setDirection(e.target.value);
+  const receipeId = useSelector((state) => state.receipes.length);
 
   const addReceipe = () => {
-    dispatch(
-      addReceipe({
-        // id: receipeId,
-        receipe,
-        ingredient,
-        direction,
-      })
-    );
-    navigate("/receipe");
+    console.log("submit button click");
+    if (title && ingredient) {
+      dispatch(
+        recepieAdd({
+          id: receipeId + 1,
+          title,
+          ingredient,
+          direction,
+        })
+      );
+      setError(null);
+      Navigate("/receipe");
+    } else {
+      setError("Fill in the blanks");
+    }
+
+    setTitle("");
+    setIngredient("");
+    setDirection("");
+    setShowModal(false);
   };
 
   return (
     <>
       {showModal ? (
-        <Background onClick={closeModal} ref={modalRef}>
-          <Modal show={showModal}>
-            <Modal.Header
-              closeButton
+        // <Background onClick={closeModal} ref={modalRef}>
+        <Modal show={showModal}>
+          <Modal.Header
+            closeButton
+            onClick={() => setShowModal((prev) => !prev)}
+          >
+            <Modal.Title>Add Receipe</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="row">
+              <div className="columns">
+                <label for="nameInput">Receipe</label>
+                <input
+                  className="u-full-width"
+                  type="text"
+                  placeholder="chicken curry"
+                  id="title"
+                  onChange={handleTitle}
+                  value={title}
+                />
+                <label for="ingredient">Ingredient</label>
+                <input
+                  className="u-full-width"
+                  type="text"
+                  placeholder="chicken"
+                  id="ingredient"
+                  onChange={handleIngre}
+                  value={ingredient}
+                />
+                <label for="description">Description</label>
+                <input
+                  className="u-full-width"
+                  type="email"
+                  placeholder="butter"
+                  id="direction"
+                  onChange={handleDire}
+                  value={direction}
+                />
+                {error && error}
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="danger"
               onClick={() => setShowModal((prev) => !prev)}
             >
-              <Modal.Title>React Modal Popover Example</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <div className="row">
-                <div className="columns">
-                  <label for="nameInput">Receipe</label>
-                  <input
-                    className="u-full-width"
-                    type="text"
-                    placeholder="chicken curry"
-                    id="recepie"
-                    onChange={handleReceipe}
-                    value={receipe}
-                  />
-                  <label for="ingredient">Ingredient</label>
-                  <input
-                    className="u-full-width"
-                    type="text"
-                    placeholder="chicken"
-                    id="ingredient"
-                    onChange={handleIngre}
-                    value={ingredient}
-                  />
-                  <label for="description">Description</label>
-                  <input
-                    className="u-full-width"
-                    type="email"
-                    placeholder="butter"
-                    id="ingredient"
-                    onChange={handleIngre}
-                    value={ingredient}
-                  />
-                  {error && error}
-                </div>
-              </div>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button
-                variant="danger"
-                onClick={() => setShowModal((prev) => !prev)}
-              >
-                Close
-              </Button>
-              <Button variant="dark" onClick={initModal}>
-                Store
-              </Button>
-            </Modal.Footer>
-            {/* <CloseModalButton
+              Close
+            </Button>
+            <Button variant="dark" onClick={addReceipe}>
+              Submit
+            </Button>
+          </Modal.Footer>
+          {/* <CloseModalButton
               aria-lable="Close modal"
               onClick={() => setShowModal((prev) => !prev)}
             /> */}
-          </Modal>
-        </Background>
-      ) : null}
+        </Modal>
+      ) : // </Background>
+      null}
     </>
   );
 };

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import ModalPopup from "../../components/Modal";
 import "./receipe.css";
 import { MdAdd } from "react-icons/md";
+import { ReceipeList } from "./ReceipeList";
 
 export function Receipe() {
   const [showModal, setShowModal] = useState(false);
@@ -21,11 +22,8 @@ export function Receipe() {
               <AddButton onClick={openModal}>Add Item</AddButton>
             </div>
             <hr class="solid"></hr>
-            <div class="item-list">
-              <label>Chicken Curry</label>
-            </div>
-            <div class="item-list">
-              <label>Vegetabl Curry</label>
+            <div>
+              <ReceipeList />
             </div>
           </div>
 
